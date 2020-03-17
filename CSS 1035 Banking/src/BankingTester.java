@@ -7,11 +7,11 @@ public class BankingTester {
   /**
    * Tester class
    <p>
-   Secure Coding 3: Exceptions handled
+   Secure Coding 3: Exceptions handled properly
    <p>
    Secure Coding 4: Rudimentary authentication with Username and Password
    <p>
-   Secure Coding 5: Input Validation
+   Secure Coding 5: Input Validation (do while loop)
    
 */
   public static void main(String[] args) {
@@ -43,11 +43,12 @@ System.out.println("Incorrect format, please try again"); System.exit(0); }
 
     int type;
     
-	do {
+	do { //INPUT VALIDATION
 		 System.out.println("Please enter 1 for checking or 2 for savings: ");
 	    while (!kb.hasNextInt()) {
 	        System.out.println("That's not a number");
 	        kb.next(); 
+	        System.exit(0);
 	    }
 	    type = kb.nextInt();
 	} while (type!=1 && type!=2);

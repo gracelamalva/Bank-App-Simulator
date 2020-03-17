@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.Base64;
 import java.util.Scanner;
 
 /** Savings program extends Account while executing transaction for Savings Account
@@ -140,9 +141,25 @@ public class Savings extends Account {
    *<p>
    
    Secure: Ensures documentation because if there is an error, transaction will not show up on customer's end either
+   Secure: Output encoding ensures that user input has been smoothed over and converted to data rather than executable code
    */
  
   public void fileAdder() {
+	  //OUTPUT ENCODING
+	  //output to text file example:
+	 // VG1GdFpUb2dJRHh5Yno0S1NVUWdUblZ0WW1WeU9pQWdNVEl6TkRVMUlFRmpZMjkxYm5RZ1FtRnNZVzVqWlRvZ0lDMGtPRGN1TURBPQ==
+			  //Name:  <ro>
+			  //ID Number:  123455 Account Balance:  -$87.00
+
+
+	  String Base64format = Base64.getEncoder().encodeToString(toString().getBytes()); 
+	  
+      byte[] actualByte = Base64.getDecoder().decode(Base64format); 
+
+  String decodedString = new String(actualByte);   
+   
+
+ 
 
     String fileName = "output.txt";
     PrintWriter outputStream = null;
@@ -154,7 +171,9 @@ public class Savings extends Account {
       System.out.println("We are experiencing an error, please try again later ");
       System.exit(0);
     }
-    outputStream.println(toString());
+    outputStream.println(Base64.getEncoder().encodeToString(Base64format.getBytes()));
+    outputStream.println(decodedString);
+    //outputStream.println(toString());
     outputStream.close();
 
   }
