@@ -6,7 +6,7 @@
  * 
  * Please see 'www.com/docs'
  * @author Grace LaMalva
- * @version 1.3
+ * @version 1.5
  * @since 2020-02-01
  */
 
@@ -18,17 +18,12 @@ public class Test {
 		sequence();	
 	}
 	
-	/**
-	 * This method is the main ATM sequence
-	 * @exception InvalidChoiceException on choice input error
-	 * @see InvalidChoiceException
-	 */
 	public static void sequence () {
 
 	Account a = new Account();
 		
-		while (a.dailyLimit >0)
-		{
+	//	while (a.dailyLimit >0){
+			
 			a.enterPin();
 		
 			System.out.print("Welcome to Grace's ATM\nThis ATM charges a $2.95 usage fee");
@@ -47,13 +42,13 @@ public class Test {
 			throw new InvalidChoiceException("You have to select either 1 or 2");
 		}
 					
-		a.dailyLimit--;
+		//a.dailyLimit--;
 			
 		} catch (InvalidChoiceException e)	{
 			System.out.println(e.getMessage());
 			sequence();
 		}
-		
+		/*
 		if(a.dailyLimit == 0)
 		{
 			//a.dailyLimitFlag = true;
@@ -88,8 +83,9 @@ public class Test {
 			}
 			
 		}
+		*/
+		//}
 		
-		}
 	}
 		
 	public static void checkingsSequence() {
@@ -99,19 +95,15 @@ public class Test {
 		int choice = kb.nextInt();
 		try {
 		if (choice == 1) {
-			System.out.println("Enter the amount: ");
-			double amount = kb.nextDouble();
-			c.deposit(amount);
+			c.deposit(validateAmount());
 			c.chargeFee();
 			System.out.println("Your new balance is: " + c.getBalance());	
 		}
-		if (choice == 2) {
-			System.out.println("Enter the amount: ");
-			double amount = kb.nextDouble();
-			c.withdraw(amount);
+		else if (choice == 2) {
+			
+			c.withdraw(validateAmount());
 			c.chargeFee();
 			System.out.println("Your new balance is: " + c.getBalance());	
-			
 		}
 		else {
 			throw new InvalidChoiceException("You must select 1 or 2");
@@ -121,7 +113,6 @@ public class Test {
 			e.getMessage();
 			checkingsSequence();
 		}
-	
 	}
 	
 	
@@ -132,16 +123,12 @@ public class Test {
 		int choice = kb.nextInt();
 		try {
 		if (choice == 1) {
-			System.out.println("Enter the amount: ");
-			double amount = kb.nextDouble();
-			s.deposit(amount);
+			s.deposit(validateAmount());
 			s.chargeFee();
 			System.out.println("Your new balance is: " + s.getBalance());
 		}
-		if (choice == 2) {
-			System.out.println("Enter the amount: ");
-			double amount = kb.nextDouble();
-			s.withdraw(amount);
+		else if (choice == 2) {
+			s.withdraw(validateAmount());
 			s.chargeFee();
 			System.out.println("Your new balance is: " + s.getBalance());	
 		}
@@ -156,6 +143,23 @@ public class Test {
 		}
 		
 	}
+	/**
+	 * This method demonstrates the principle of input validation to ensure the user enters a double amount.
+	 * @author gracelamalva
+	 * @version 1.4
+	 * @return the validated double amount to be deposited or withdrawn
+	 */
+	private static double validateAmount() {
+        Scanner kb = new Scanner(System.in);
+        double amount;
+            System.out.print("Please enter an amount: ");
+            while (!kb.hasNextDouble()) {
+                String input = kb.next();
+                System.out.printf("\"%s\" is not a valid number.\n", input);
+            }
+            amount = kb.nextDouble();
+        System.out.printf("You have entered a valid amount");
+        return amount;
+    }
 		
-
 }

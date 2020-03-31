@@ -1,5 +1,15 @@
 import java.util.Scanner;
-
+/**
+ * <h1> BankingApp </h1>
+ * The BankingApp project is meant to emulate an ATM experience
+ * 
+ * Account defines the features of a user account
+ * 
+ * Please see 'www.com/docs'
+ * @author Grace LaMalva
+ * @version 1.3
+ * @since 2020-02-01
+ */
 public class Account {
 
 	protected boolean verified = false;
@@ -74,9 +84,7 @@ public class Account {
 			}catch (invalidPinException e) {
 				System.out.println(e.getMessage());
 			}
-		
-		}
-		
+		}	
 	}
 	
 	public int getDailyLimit() {
@@ -90,21 +98,7 @@ public class Account {
 	public String toString () {
 		return "Pin" + this.pin;
 	}
-	
-	/*public boolean verifyAccount() {
-		
-		//throw new invalidPinNonIntegerException ("Invalid Pin only integers!");
-		try {
-			System.out.print("Attempting to verify acccount: ");
-			throw new AccountExceptions("Error message in account");
-		} catch (AccountExceptions e) {
-			System.out.println("This is inside catch");
-			System.out.println(e.getMessage());
-		}
-		
-		return verified = false;
-	}
-	*/
+
 	
 
 }
