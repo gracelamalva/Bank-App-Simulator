@@ -1,70 +1,99 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 /**
-* <h1>Java Banking Application</h1>
-* This program is a simulated bank ATM application that covers 
-* withdrawal and deposits of a savings or checking account. 
-* <p>
-* This program includes a few error checking and exceptions 
-* implemented thus far but is far from finished. Errors include not 
-* withdrawing more than what is in an account and exceptions include 
-* accounting for proper input and not exceeding the withdrawal limit.  
-* 
-*
-* @author  Derick Naraine
-* @version 1.4
-* @since   2020-02-23 
-*/
-class Account {
+ * <h1> BankingApp </h1>
+ * The BankingApp project is meant to emulate an ATM experience
+ * 
+ * Account defines the features of a user account
+ * 
+ * Please see 'www.com/docs'
+ * @author Grace LaMalva
+ * @version 1.3
+ * @since 2020-02-01
+ */
+public class Account {
 
-   protected int account;
-   protected double balance;
+	protected boolean verified = false;
+	
+	protected int dailyLimit = 3;
+	
+	protected String userName;
+	protected int loginAttempts = 2;
+	
+	public Account () {
+		this.userName = "Team 1 Shared Account";
+	
+	}
+	
+	public Account (String u, String p) {
+		
+	}
+	
+	/**
+	 * This method initializes the sequence for the user to enter the pin
+	 * allowing for further interaction with the system
+	 * @throws FileNotFoundException 
+	 * @exception InvalidPinException
+	 * @see InvalidPinException
+	 */
+	public void enterPin () throws FileNotFoundException {
+		Scanner kb = new Scanner (System.in);
+		boolean verified = false;
+		Account a = new Account();
+		
+        List<String> list = new ArrayList<String>();
+        list.add("$2a$12$.hUzNzZQR/inSb5nBpLAgeP60q4Y0TZ7RASb6soJf4SlDUJ.5Zo96");
+        
+        String origPin = list.get(0);
+		
+		while(!verified) {
+			System.out.println("Enter your 4-digit pin: ");
+			String pin = kb.nextLine();
+		try {
+	        boolean pinMatch = BCrypt.checkpw(pin, origPin);
+			if (pinMatch){
+				verified = true;
+				this.verified = verified;
+			}
+			else if (pin.length() != 4) {
+				loginAttempts--;
+				throw new invalidPinException("The pin must be a length of 4");
+			} 
+			else if (pin.isEmpty()) {
+				loginAttempts--;
+				throw new invalidPinException("The pin cannot be empty");
+			}
+			else if (!pin.matches("^[0-9]*$")) {
+				loginAttempts--;
+				throw new invalidPinException("The pin cannot contain characters");
+			}
+			else if (pin.contains("-")) {
+				loginAttempts--;
+				throw new invalidPinException("The pin can't be negative");
+			}
+			else {
+				System.out.println("Incorrect pin, you have: " + loginAttempts + " login attempts left");
+				if (loginAttempts == 0)
+				{
+					System.exit(0);
+				}
+				loginAttempts--;
+			}
+			}catch (invalidPinException e) {
+				System.out.println(e.getMessage());
+			}
+		}	
+	}
+	
+	public int getDailyLimit() {
+		return this.dailyLimit;
+	}
+	
+	public void decrementDailyLimit() {
+		this.dailyLimit--;
+	}	
 
-   /**
-   * This method is the basic foundation of the bank account.
-   * It sets the variables 'account' and 'balance' to become 
-   * that of the integer values of 'account_num' and 
-   * 'initial_balance' once calculated.
-   * @param account Account associated with transaction (deposit/withdrawal)
-   * @param balance Balance in USD of the account
-   */
-   public Account (int account_num, double initial_balance) {
-      account = account_num;
-      balance = initial_balance;
-   }
-
-   /**
-   * This method is responsible for deposits which will increase funds 
-   * into either the checking or saving account of an individual.
-   * @param amount Amount associated to be deposited into account
-   */
-   public void deposit (double amount) {
-      balance += amount;
-      System.out.println ("Deposit into account " + account);
-      System.out.println ("Amount to Add: +" + amount);
-      System.out.println ("Updated Balance: " + balance);
-      System.out.println ();
-   } 
-
-   /**
-   * This method is responsible for withdrawals which will decrease funds 
-   * into either the checking or saving account of an individual. Specifies
-   * if yes/no if a withdrawal is needed and will do so.
-   * @param withdrawal Amount associated to be withdrawn from account
-   */
-   public boolean withdrawal (double amount) {
-      boolean result = false;
-
-      System.out.println ("Withdraw from account " + account);
-      System.out.println ("Amount to Withdraw: -" + amount);
-
-      if (amount > balance)
-         System.out.println ("Insufficient funds in account.");
-      else {
-         balance -= amount;
-         System.out.println ("Updated Balance: " + balance);
-         result = true;
-      }
-      
-      System.out.println();
-      return result;
-   }
 }
