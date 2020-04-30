@@ -10,8 +10,8 @@ import java.util.Scanner;
  * Account defines the features of a user account
  * 
  * Please see 'www.com/docs'
- * @author Grace LaMalva
- * @version 1.3
+ * @author CSS 1032 Group 1 - Grace, Roshni, Isaac, Rishi, Derick
+ * @version 1.5
  * @since 2020-02-01
  */
 public class Account {
